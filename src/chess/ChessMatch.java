@@ -8,11 +8,23 @@ import chess.pieces.Rook;
 
 public class ChessMatch {
     private Board board;
+    private Color currentPlayer;
+    private int turn;
 
     public ChessMatch() {
         this.board = new Board(8, 8);
+        currentPlayer = Color.WHITE;
+        turn = 1;
         this.initialSetup();
 
+    }
+
+    public Color currentPlayer() {
+        return currentPlayer;
+    }
+
+    public int turn() {
+        return turn;
     }
 
     public ChessPiece[][] getPieces() {
@@ -38,6 +50,7 @@ public class ChessMatch {
         validateSourcePosition(source);
         validateTargetPosition(source, target);
         Piece capturedPiece = makeMove(source, target);
+        nextTurn();
         return (ChessPiece) capturedPiece;
     }
 
@@ -52,6 +65,9 @@ public class ChessMatch {
         if (!board.thereIsAPiece(position)) {
             throw new ChessException("There is no piece on source position");
         }
+        if (currentPlayer != ((ChessPiece) board.piece(position)).getColor()) {
+            throw new ChessException("The piece chosen is not yours");
+        }
         if (!board.piece(position).isThereAnyPossibleMove()) {
             throw new ChessException("There is no possible move for the chose chess piece");
         }
@@ -61,6 +77,11 @@ public class ChessMatch {
         if (!board.piece(source).posibleMove(target)) {
             throw new ChessException("The chosen piece can't move to the target position");
         }
+    }
+
+    private void nextTurn() {
+        turn++;
+        currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE;
     }
 
     private void placeNewPiece(char column, int row, ChessPiece piece) {
@@ -81,5 +102,17 @@ public class ChessMatch {
         placeNewPiece('e', 7, new Rook(board, Color.BLACK));
         placeNewPiece('e', 8, new Rook(board, Color.BLACK));
         placeNewPiece('d', 8, new King(board, Color.BLACK));
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Color getCurrentPlayer() {
+        return currentPlayer;
+    }
+
+    public int getTurn() {
+        return turn;
     }
 }

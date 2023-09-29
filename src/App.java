@@ -13,7 +13,7 @@ public class App {
         while (true) {
             try {
                 UI.ClearConsole();
-                UI.printBoard(chessMatch.getPieces());
+                UI.printMatch(chessMatch);
                 System.out.println();
                 System.out.print("Source: ");
                 ChessPosition source = UI.readChessPosition(sc);
@@ -21,7 +21,7 @@ public class App {
                 UI.ClearConsole();
                 UI.printBoard(chessMatch.getPieces(), possibleMoves);
                 System.out.println();
-                System.out.println("Target: ");
+                System.out.print("Target: ");
                 ChessPosition target = UI.readChessPosition(sc);
 
                 ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
