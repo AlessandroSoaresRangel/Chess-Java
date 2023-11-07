@@ -13,7 +13,7 @@ public class App {
         ChessMatch chessMatch = new ChessMatch();
         Scanner sc = new Scanner(System.in);
         List<ChessPiece> captured = new ArrayList<ChessPiece>();
-        while (true) {
+        while (!chessMatch.getCheckMate()) {
             try {
                 UI.ClearConsole();
                 UI.printMatch(chessMatch, captured);
@@ -41,5 +41,7 @@ public class App {
             }
 
         }
+        UI.ClearConsole();
+        UI.printMatch(chessMatch, captured);
     }
 }
